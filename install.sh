@@ -4,25 +4,26 @@
 # 
 # Add make_drv to select chip type
 # Novembor, 21 2011 v1.1.0, Jeff Hung
+# 
+# Use elivated privileges only for install
+# Remove su and use sudo
+# Remove the tar file
+# Rename the drive folder variable
+# September, 22 2020 v1.1.1, Vishnu Sreekumar
 ################################################################################
 
 echo "##################################################"
 echo "Realtek Wi-Fi driver Auto installation script"
-echo "Novembor, 21 2011 v1.1.0"
+echo "September, 22 2020 v1.1.1"
 echo "##################################################"
 
 ################################################################################
-#			Decompress the driver source tal ball
+#			Choose the driver folder
 ################################################################################
 cd driver
-Drvfoulder=`ls |grep .tar.gz`
-echo "Decompress the driver source tar ball:"
-echo "	"$Drvfoulder
-tar zxvf $Drvfoulder
-
-Drvfoulder=`ls |grep -iv '.tar.gz'`
-echo "$Drvfoulder"
-cd  $Drvfoulder
+Drvfolder=`ls |grep -iv '.tar.gz'`
+echo "$Drvfolder"
+cd  $Drvfolder
 
 ################################################################################
 #			If makd_drv exixt, execute it to select chip type
@@ -34,14 +35,14 @@ fi
 ################################################################################
 #                       make clean
 ################################################################################
-echo "Authentication requested [root] for make clean:"
-sudo make clean; Error=$?
+echo "Cleanup previous build files if exists"
+make clean; Error=$?
 
 ################################################################################
 #			Compile the driver
 ################################################################################
-echo "Authentication requested [root] for make driver:"
-sudo make; Error=$?
+echo "Compile"
+make; Error=$?
 ################################################################################
 #			Check whether or not the driver compilation is done
 ################################################################################
